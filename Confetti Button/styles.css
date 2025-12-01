@@ -1,0 +1,106 @@
+:root {
+    /* Define a custom property for the duration */
+    --transition-duration: 0.2s;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f0f0f0; /* Light background for contrast */
+}
+
+.confetti-button {
+    /* Basic Button Styling */
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 30px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    /* Important for animation positioning */
+    position: relative;
+    overflow: hidden; 
+    width: 150px; /* Fixed width helps transition */
+    height: 50px;
+    
+    /* Smooth Transition for background/width changes */
+    transition: background-color var(--transition-duration), width var(--transition-duration);
+}
+
+/* ------------------- Initial States ------------------- */
+
+.confetti-button .button-text {
+    /* Text state is visible initially */
+    opacity: 1;
+    transition: opacity var(--transition-duration);
+}
+
+.confetti-button .dots,
+.confetti-button .successMessage {
+    /* Dots and success message are hidden/out of sight initially */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: opacity var(--transition-duration);
+}
+
+/* ------------------- Active (Loading) State ------------------- */
+
+.confetti-button.loading {
+    /* Shrink and change color when loading */
+    width: 50px;
+    background-color: #555;
+}
+
+.confetti-button.loading .button-text {
+    opacity: 0; /* Hide text */
+}
+
+.confetti-button.loading .dots {
+    opacity: 1; /* Show dots/loading state */
+}
+
+/* ------------------- Success State (Post-Loading) ------------------- */
+
+.confetti-button.success {
+    background-color: #5cffb1; /* Bright green success color */
+    width: 50px; /* Keep button small */
+}
+
+.confetti-button.success .button-text {
+    opacity: 0; /* Final fix: Explicitly hide text during success */
+}
+
+.confetti-button.success .dots {
+    opacity: 0; /* Hide dots */
+}
+
+.confetti-button.success .successMessage {
+    opacity: 1; /* Show success icon */
+    transform: translate(-50%, -50%);
+}
+
+.confetti-button.success .successMessage polyline {
+    /* Styling the checkmark */
+    stroke: #333;
+    stroke-width: 3;
+    fill: none;
+    stroke-linecap: round;
+    stroke-dasharray: 40; /* Total length of the line */
+    stroke-dashoffset: 40; /* Start hidden */
+    
+    /* Draw the checkmark */
+    animation: drawCheck 0.5s ease-out forwards;
+}
+
+@keyframes drawCheck {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
